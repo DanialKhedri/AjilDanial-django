@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load price_filters %}
+
+{% block content %}
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- عنوان صفحه -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
+      <h1 class="text-3xl md:text-4xl font-semibold text-green-700 tracking-tight">
+        محصولات
+      </h1>
+
+      {% if query %}
+        <p class="text-gray-500 text-sm mt-2 sm:mt-0">نتایج جستجو برای: «{{ query }}»</p>
+      {% endif %}
+    </div>
+
+    <!-- لیست محصولات -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+      {% for product in products %}
+      <a href="{% url 'product_detail' slug=product.slug %}" class="group block bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 max-w-sm mx-auto">
+        <!-- تصویر محصول -->
+        <div class="w-full aspect-w-16 aspect-h-9 bg-gray-100 overflow-hidden">
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.title }}"
+         class="w-full h-full object-contain object-center transition-transform duration-500 group-hover:scale-105">
+  {% else %}
+    <div class="w-full h-full flex items-center justify-center text-gray-400">بدون تصویر</div>
+  {% endif %}
+</div>
+     
+
+        <!-- جزئیات محصول -->
+        <div class="p-8 md:p-10 flex flex-col justify-between">
+          <div>
+            <h2 class="font-semibold text-xl md:text-2xl text-gray-800 group-hover:text-green-600 transition">
+              {{ product.title }}
+            </h2>
+            <p class="text-base text-gray-500 mt-3">{{ product.category.title }}</p>
+          </div>
+
+          <!-- قیمت -->
+          <div class="mt-6">
+            {% if product.product_type == "bulk" %}
+              <p class="text-gray-900 font-semibold text-xl md:text-2xl">
+                قیمت هر کیلو: {{ product.price_per_kg|price }}
+              </p>
+            {% elif product.product_type == "packaged" %}
+              <p class="text-gray-900 font-semibold text-xl md:text-2xl">
+                قیمت بسته: {{ product.package_price|price }}
+              </p>
+              <p class="text-base text-gray-600 mt-2">وزن بسته: {{ product.package_weight }} گرم</p>
+            {% endif %}
+          </div>
+        </div>
+      </a>
+      {% empty %}
+        <p class="col-span-full text-center text-gray-500">محصولی یافت نشد.</p>
+      {% endfor %}
+    </div>
+
+    <!-- صفحه‌بندی -->
+    {% if is_paginated %}
+    <div class="flex justify-center items-center mt-10 space-x-2 rtl:space-x-reverse">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" 
+           class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition">قبلی</a>
+      {% endif %}
+
+      <span class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700">
+        صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" 
+           class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition">بعدی</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
