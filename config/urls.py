@@ -14,7 +14,10 @@ urlpatterns = [
 
 
     #products
-    path('products/',include('apps.products.urls'))
+    path('products/',include('apps.products.urls')),
+
+      #cart
+    path('cart/',include('apps.cart.urls'))
     
 ]
 if settings.DEBUG:
