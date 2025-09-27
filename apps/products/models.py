@@ -17,7 +17,10 @@ class Product(models.Model):
 
     title = models.CharField(max_length=150, verbose_name="عنوان محصول")
     slug = models.SlugField(max_length=160, unique=True, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
+
+    # تغییر اینجا 👇
+    categories = models.ManyToManyField(Category, related_name="products", verbose_name="دسته‌بندی‌ها")
+
     image = models.ImageField(upload_to="products/", blank=True, null=True, verbose_name="تصویر محصول")
     description = models.TextField(blank=True, null=True, verbose_name="توضیحات")
 

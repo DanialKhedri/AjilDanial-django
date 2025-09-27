@@ -6,9 +6,19 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- عنوان صفحه -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8">
-      <h1 class="text-3xl md:text-4xl font-semibold text-green-700 tracking-tight">
+
+      {% if category %}
+ <h1 class="text-3xl md:text-4xl font-semibold text-green-700 tracking-tight">
+        {{ category.name }}
+      </h1>
+
+{% else %}
+
+   <h1 class="text-3xl md:text-4xl font-semibold text-green-700 tracking-tight">
         محصولات
       </h1>
+      {% endif %}
+   
 
       {% if query %}
         <p class="text-gray-500 text-sm mt-2 sm:mt-0">نتایج جستجو برای: «{{ query }}»</p>

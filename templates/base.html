@@ -4,269 +4,235 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>خانه — آجیل‌سرا</title>
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body{font-family:'Vazirmatn',sans-serif}
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- فونت فارسی Vazirmatn -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- آیکون‌ها -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <style>
+    body { font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    /* مخفی کردن اسکرول‌بار */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* انیمیشن نرم زوم تصویر */
+    .group-hover\:scale-110 { transition: transform .45s cubic-bezier(.2,.9,.3,1); will-change: transform; }
+    /* فوکوس زیباتر */
+    :focus { outline: 3px solid rgba(34,197,94,0.15); outline-offset: 2px; }
+  </style>
 </head>
 
- <body class="bg-gradient-to-b from-emerald-50 to-white text-gray-800">
+<body class="bg-gradient-to-b from-emerald-50 to-white text-gray-800">
 
-<!-- HEADER -->
-<!-- TOP STRIP -->
-<div class="bg-green-200/30 text-green-900 text-sm py-2 backdrop-blur-lg shadow-md rounded-b-lg border border-white/20">
-  <div class="max-w-7xl mx-auto px-4 text-center font-semibold drop-shadow-sm">
-    ✨ ارسال رایگان برای سفارش‌های بالای ۵۰۰ هزار تومان ✨
+  <!-- نوار بالایی -->
+  <div class="bg-green-200/30 text-green-900 text-sm py-2 backdrop-blur-lg shadow-md rounded-b-lg border border-white/20">
+    <div class="max-w-7xl mx-auto px-4 text-center font-semibold drop-shadow-sm">
+      ✨ ارسال رایگان برای سفارش‌های بالای ۵۰۰ هزار تومان ✨
+    </div>
   </div>
+
+  <!-- هدر -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <!-- Top bar -->
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-4">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2 text-green-700 font-extrabold text-xl">
+      <span class="text-2xl">🍃</span>
+      آجیل دانیال
+    </a>
+
+   <!-- Search -->
+<div class="hidden md:flex flex-1 mx-6">
+  <form method="get" action="{% url 'product_list' %}" class="flex w-full border border-green-200 rounded-xl overflow-hidden">
+    <input type="text" name="q" placeholder="جستجو در محصولات..." 
+           value="{{ query }}"
+           class="flex-1 px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none text-sm">
+    <button type="submit" class="bg-green-600 text-white px-4 hover:bg-green-700 transition">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+</div>
+
 </div>
 
 
-
-
-<!-- HEADER -->
-<header class="sticky top-0 z-50 bg-white shadow">
-  <!-- TOPBAR -->
-  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 sm:py-4 border-b">
-    <!-- لوگو و منوی موبایل -->
-    <div class="flex items-center gap-3">
-      <!-- دکمه منوی موبایل -->
-      <button id="menuBtn" class="md:hidden p-2 rounded-md hover:bg-gray-100 transition" aria-label="باز کردن منو">
-        <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
+    <!-- Actions -->
+    <div class="flex items-center gap-4">
+      <button class="relative text-gray-600 hover:text-green-700">
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span class="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full px-1.5">2</span>
       </button>
-      <!-- لوگو -->
-      <span class="text-2xl sm:text-3xl font-extrabold text-green-700">🌰 آجیل‌سرا</span>
-    </div>
-
-    <!-- جستجو دسکتاپ -->
-    <div class="flex-1 mx-4 hidden md:flex">
-      <div class="flex items-center border rounded-lg overflow-hidden w-full">
-        <input type="text" placeholder="جستجو در محصولات..." 
-               class="flex-1 px-4 py-2 sm:px-5 sm:py-3 text-sm sm:text-base font-medium focus:outline-none focus:ring-2 focus:ring-green-400">
-        <button class="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 h-full flex items-center justify-center transition rounded-r-lg">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- دکمه‌ها (موبایل و دسکتاپ) -->
-    <div class="flex items-center gap-2 sm:gap-4">
-      <!-- جستجو موبایل -->
-      <button id="searchBtn" class="md:hidden p-2 rounded-md hover:bg-gray-100 transition" aria-label="جستجو">
-        <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-      </button>
-
-      <!-- دکمه سبد خرید (فقط دسکتاپ) -->
-      <button id="cartBtn" 
-              class="hidden md:flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-2xl bg-transparent text-green-600 text-sm sm:text-lg font-bold border-2 border-green-600 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200">
-        <i class="fas fa-cart-shopping"></i>
-       (0)
+    
+      <!-- Hamburger -->
+      <button id="menuToggle" class="md:hidden text-gray-600 hover:text-green-700">
+        <i class="fas fa-bars text-2xl"></i>
       </button>
     </div>
   </div>
 
-  <!-- جستجو موبایل (hidden by default) -->
-  <div id="mobileSearch" class="md:hidden hidden border-b bg-white px-4 py-3">
-    <div class="relative flex items-center">
-      <!-- دکمه سمت چپ -->
-      <button class="absolute left-2 top-1/2 -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white p-2 rounded-full transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </button>
-
-      <input type="text" placeholder="جستجو در محصولات..." 
-             class="w-full border rounded-lg px-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-    </div>
-  </div>
-
- <!-- MAIN MENU دسکتاپ -->
-<!-- MAIN MENU دسکتاپ -->
-<nav class="hidden md:block bg-green-600 text-white">
-  <div class="max-w-7xl mx-auto px-4">
-    <ul class="flex justify-center gap-6 sm:gap-10 text-base sm:text-lg font-extrabold">
-      <li class="py-3 relative group">
-        <a href="#" class="block">آجیل‌ها</a>
-        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-      </li>
-      <li class="py-3 relative group">
-        <a href="#" class="block">خشکبار</a>
-        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-      </li>
-      <li class="py-3 relative group">
-        <a href="#" class="block">پک هدیه</a>
-        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-      </li>
-      <li class="py-3 relative group">
-        <a href="#" class="block">پک سفارشی</a>
-        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-      </li>
-      <li class="py-3 relative group">
-        <a href="#" class="block">مقالات</a>
-        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-      </li>
-      <li class="py-3 relative group">
-        <a href="#" class="block">درباره ما</a>
-        <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-
-
-
-
-
-<!-- SIDEBAR MENU - موبایل و دسکتاپ -->
-<div id="sidebar" class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50 flex flex-col">
-  <!-- HEADER SIDEBAR -->
-  <div class="flex items-center justify-between px-4 py-3 border-b">
-    <span class="text-2xl font-extrabold text-green-700">🌰 آجیل‌سرا</span>
-    <button id="closeSidebar" class="p-2 rounded-md hover:bg-gray-100 transition" aria-label="بستن منو">
-      <svg class="w-6 h-6 text-green-700" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- NAVIGATION -->
-  <nav class="flex-1 overflow-y-auto px-4 py-6 flex flex-col justify-start">
-    <!-- لیست آیتم‌ها -->
-    <ul class="flex flex-col space-y-4 text-gray-700">
-      <li><a href="#" class="block py-2">آجیل‌ها</a></li>
-      <li><a href="#" class="block py-2">خشکبار</a></li>
-      <li><a href="#" class="block py-2">پک هدیه</a></li>
-      <li><a href="#" class="block py-2">پک سفارشی</a></li>
-      <li><a href="#" class="block py-2">مقالات</a></li>
-      <li><a href="#" class="block py-2">درباره ما</a></li>
-    </ul>
-
-    <!-- دکمه سبد خرید موبایل -->
-    <div class="mt-6 md:hidden">
-      <button class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-green-600 text-white text-lg font-bold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200">
-        <i class="fas fa-cart-shopping"></i>
-        سبد (0)
-      </button>
+  <!-- MAIN MENU دسکتاپ -->
+  <nav class="hidden md:block bg-green-600 text-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <ul class="flex justify-center gap-6 sm:gap-10 text-base sm:text-lg font-extrabold">
+        <li class="py-3 relative group">
+          <a href="#" class="block">آجیل‌ها</a>
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </li>
+        <li class="py-3 relative group">
+          <a href="#" class="block">خشکبار</a>
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </li>
+        <li class="py-3 relative group">
+          <a href="#" class="block">پک هدیه</a>
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </li>
+        <li class="py-3 relative group">
+          <a href="#" class="block">پک سفارشی</a>
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </li>
+        <li class="py-3 relative group">
+          <a href="#" class="block">مقالات</a>
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </li>
+        <li class="py-3 relative group">
+          <a href="#" class="block">درباره ما</a>
+          <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+        </li>
+      </ul>
     </div>
   </nav>
-</div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden bg-green-50 border-t border-green-100 px-4 py-4 space-y-3 md:hidden">
+    <a href="#" class="block text-gray-700 hover:text-green-700 transition">آجیل‌ها</a>
+    <a href="#" class="block text-gray-700 hover:text-green-700 transition">خشکبار</a>
+    <a href="#" class="block text-gray-700 hover:text-green-700 transition">پک هدیه</a>
+    <a href="#" class="block text-gray-700 hover:text-green-700 transition">پک سفارشی</a>
+    <a href="#" class="block text-gray-700 hover:text-green-700 transition">مقالات</a>
+    <a href="#" class="block text-gray-700 hover:text-green-700 transition">درباره ما</a>
+    <hr class="border-green-200">
+  </div>
 </header>
 
+  <!-- بدنه اصلی -->
+  <main class="max-w-7xl mx-auto px-4 py-8">
+
+  {% block content %} {% endblock%}
+  </main>
 
 
 
-  <!-- محتوای صفحات -->
-    <main class="max-w-7xl mx-auto p-4">
-        {% block content %}{% endblock %}
-    </main>
+  <!-- Footer -->
+  <footer class="bg-green-700 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
 
-
-
-
-
-
-  <!-- FOOTER -->
-  <footer class="mt-12 border-t bg-white">
-    <div class="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-4 gap-6">
+      <!-- درباره -->
       <div>
-        <div class="font-bold text-lg text-green-700">آجیل‌سرا</div>
-        <p class="text-sm text-gray-600 mt-2">تازه‌ترین آجیل‌ها، بسته‌بندی شکیل، ارسال سریع.</p>
+        <h3 class="text-lg font-bold mb-4">🌰 آجیل‌سرا</h3>
+        <p class="text-sm text-green-100 leading-relaxed">
+          آجیل‌سرا انتخابی تازه برای طعم‌های اصیل.  
+          با بهترین آجیل‌ها و خشکبار تازه، سالم و بهداشتی در خدمت شما هستیم.
+        </p>
       </div>
+
+      <!-- دسته‌بندی‌ها -->
       <div>
-        <h4 class="font-semibold mb-2">خرید</h4>
-        <ul class="space-y-1 text-sm text-gray-600">
-          <li><a href="#">آجیل‌ها</a></li>
-          <li><a href="#">خشکبار</a></li>
-          <li><a href="#">پک هدیه</a></li>
+        <h3 class="text-lg font-bold mb-4">دسته‌بندی‌ها</h3>
+        <ul class="space-y-2 text-green-100 text-sm">
+          <li><a href="#" class="hover:text-white transition">آجیل‌ها</a></li>
+          <li><a href="#" class="hover:text-white transition">خشکبار</a></li>
+          <li><a href="#" class="hover:text-white transition">پک هدیه</a></li>
+          <li><a href="#" class="hover:text-white transition">پک سفارشی</a></li>
         </ul>
       </div>
+
+      <!-- لینک‌های مفید -->
       <div>
-        <h4 class="font-semibold mb-2">پشتیبانی</h4>
-        <ul class="space-y-1 text-sm text-gray-600">
-          <li><a href="#">سوالات متداول</a></li>
-          <li><a href="#">ارسال و بازگشت</a></li>
-          <li><a href="#">تماس با ما</a></li>
+        <h3 class="text-lg font-bold mb-4">لینک‌های مفید</h3>
+        <ul class="space-y-2 text-green-100 text-sm">
+          <li><a href="#" class="hover:text-white transition">درباره ما</a></li>
+          <li><a href="#" class="hover:text-white transition">مقالات</a></li>
+          <li><a href="#" class="hover:text-white transition">سؤالات متداول</a></li>
+          <li><a href="#" class="hover:text-white transition">تماس با ما</a></li>
         </ul>
       </div>
+
+      <!-- شبکه‌های اجتماعی -->
       <div>
-        <h4 class="font-semibold mb-2">دنبال کنید</h4>
-        <div class="flex gap-4 text-green-700">
-          <a href="#" aria-label="اینستاگرام">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zM12 7a5 5 0 100 10 5 5 0 000-10zm6.5-.25a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"/></svg>
-          </a>
-          <a href="#" aria-label="تلگرام">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9.316 14.3l7.223-6.51-9.457 6.465-.002-.002L5.8 15.86l3.516-1.56zm0-5.223l-.192.226-5.042 9.826 7.21-8.234-1.976-1.818zm9.44-3.73a2.13 2.13 0 10-4.259 0 2.13 2.13 0 004.26 0z"/></svg>
-          </a>
+        <h3 class="text-lg font-bold mb-4">ما را دنبال کنید</h3>
+        <div class="flex gap-4 text-2xl">
+          <a href="#" class="hover:text-emerald-300 transition"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="hover:text-emerald-300 transition"><i class="fab fa-telegram"></i></a>
+          <a href="#" class="hover:text-emerald-300 transition"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
+
     </div>
-    <div class="text-center text-xs text-gray-400 py-4">© ۲۰۲۵ آجیل‌سرا</div>
+
+    <!-- کپی‌رایت -->
+    <div class="bg-green-800 py-4 text-center text-sm text-green-200">
+      © ۲۰۲۵ آجیل‌سرا — تمامی حقوق محفوظ است.
+    </div>
   </footer>
 
 
- </body>
 
-   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const menuBtn = document.getElementById('menuBtn');
-    const sidebar = document.getElementById('sidebar');
-    const closeSidebar = document.getElementById('closeSidebar');
-    const overlay = document.getElementById('overlay');
-    const cartBtn = document.getElementById('cartBtn');
-    const searchBtn = document.getElementById("searchBtn");
-    const mobileSearch = document.getElementById("mobileSearch");
 
-    // open sidebar
-    menuBtn?.addEventListener('click', () => {
-      sidebar.classList.remove('translate-x-full');
-      overlay.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    });
 
-    // close sidebar
-    closeSidebar?.addEventListener('click', closeMenu);
-    overlay?.addEventListener('click', closeMenu);
 
-    function closeMenu() {
-      sidebar.classList.add('translate-x-full');
-      overlay.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
 
-    // toggle mobile search
-    searchBtn?.addEventListener("click", () => {
-      mobileSearch?.classList.toggle("hidden");
-    });
 
-    // add to cart
-    window.addToCart = function(item) {
-      let count = parseInt(cartBtn.textContent.match(/\d+/)) || 0;
-      count++;
-      cartBtn.textContent = `سبد (${count})`;
-      alert(item + " به سبد خرید اضافه شد.");
-    }
 
-    // smooth scroll
-    window.scrollToSection = function(id) {
-      document.getElementById(id)?.scrollIntoView({behavior: 'smooth'});
-      closeMenu();
-    }
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    (function () {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function swiperOptions(paginationSelector, autoplayDelay) {
+        const base = {
+          slidesPerView: 1.15,
+          spaceBetween: 16,
+          loop: true,
+          breakpoints: {
+            640: { slidesPerView: 2.2 },
+            1024: { slidesPerView: 3.2 }
+          },
+          pagination: { el: paginationSelector, clickable: true },
+          keyboard: { enabled: true, onlyInViewport: true },
+          a11y: { enabled: true },
+        };
+        if (!reduceMotion) {
+          base.autoplay = { delay: autoplayDelay, disableOnInteraction: false, pauseOnMouseEnter: true };
+        }
+        return base;
+      }
+      try {
+        new Swiper(".bestSwiper", swiperOptions(".bestSwiper .swiper-pagination", 3000));
+        new Swiper(".dealsSwiper", Object.assign(swiperOptions(".dealsSwiper .swiper-pagination", 3500), {
+          breakpoints: { 640: { slidesPerView: 2.2 }, 1024: { slidesPerView: 3.2 } }
+        }));
+      } catch (err) {
+        console.warn("Swiper initialization failed:", err);
+      }
+    })();
+
+
+
+      const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
   });
   </script>
-
+</body>
 </html>

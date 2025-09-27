@@ -1,8 +1,295 @@
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-{% block title %}صفحه اصلی{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<h2 class="text-2xl font-bold mb-4">به سایت آجیل‌سرا خوش آمدید!</h2>
-<p>در اینجا می‌توانید محصولات ما را مشاهده و سفارش دهید.</p>
+
+<!-- Hero -->
+<section class="relative bg-green-100 rounded-3xl overflow-hidden shadow-md">
+  <img src="https://picsum.photos/1200/400?random=1" alt="تصویر آجیل" class="w-full h-64 sm:h-96 object-cover">
+  <div class="absolute inset-0 bg-black/30 flex flex-col justify-center items-center text-white text-center px-4">
+    <h1 class="text-2xl sm:text-4xl font-extrabold mb-4">{{ welcome }}</h1>
+    <p class="mb-6 text-base sm:text-lg">بهترین آجیل‌ها و خشکبار تازه را با عشق برای شما آماده کرده‌ایم</p>
+    <a href="#" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-lg rounded-full font-bold shadow-lg transition">مشاهده محصولات</a>
+  </div>
+</section>
+
+<!-- Promos -->
+<section class="grid grid-cols-2 sm:grid-cols-4 gap-4 my-10">
+  <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition">
+    <i class="fas fa-truck text-green-600 text-3xl mb-3"></i>
+    <h3 class="font-bold">ارسال سریع</h3>
+    <p class="text-sm text-gray-500">به سراسر ایران</p>
+  </div>
+  <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition">
+    <i class="fas fa-leaf text-green-600 text-3xl mb-3"></i>
+    <h3 class="font-bold">تازه و طبیعی</h3>
+    <p class="text-sm text-gray-500">با کیفیت عالی</p>
+  </div>
+  <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition">
+    <i class="fas fa-gift text-green-600 text-3xl mb-3"></i>
+    <h3 class="font-bold">پک هدیه</h3>
+    <p class="text-sm text-gray-500">ویژه مناسبت‌ها</p>
+  </div>
+  <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center text-center hover:shadow-lg transition">
+    <i class="fas fa-coins text-green-600 text-3xl mb-3"></i>
+    <h3 class="font-bold">قیمت مناسب</h3>
+    <p class="text-sm text-gray-500">مستقیم از تولیدکننده</p>
+  </div>
+</section>
+
+
+<!-- Categories -->
+<section class="my-12">
+  <h2 class="text-xl sm:text-2xl font-extrabold text-gray-800 mb-6">دسته‌بندی‌ها</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    {% for category in categories %}
+    <a href="{% url 'products_by_category' slug=category.slug %}" class="bg-green-100 rounded-2xl p-6 flex flex-col items-center text-center hover:bg-green-200 transition">
+      <img src="https://picsum.photos/100?random={{ forloop.counter }}" alt="{{ category.name }}" class="w-16 h-16 rounded-full mb-3">
+      <span class="font-bold">{{ category.name }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+
+
+  <!-- PRODUCTS -->
+<section id="products" class="mt-12">
+  <div class="flex items-center justify-between">
+    <h3 class="text-2xl font-bold">محصولات محبوب</h3>
+    <a href="#" class="relative inline-block text-base font-semibold text-brand-700 group">
+      دیدن همه
+      <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for product in bestsell %}
+      <a href="{% url 'product_detail' slug=product.slug %}" class="block bg-white rounded-2xl p-4 shadow glass card-hover no-underline hover:no-underline">
+        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-36 object-cover rounded-xl">
+        <h4 class="mt-3 font-semibold text-gray-900">{{ product.title }}</h4>
+        <p class="text-xs text-gray-500 mt-1">{{ product.description }}</p>
+        <div class="mt-3 flex items-center justify-between">
+          <span class="font-bold text-gray-900">{{ product.price }} تومان</span>
+          <button class="text-sm px-3 py-1 border rounded-lg bg-green-100 hover:bg-green-200 cursor-pointer">+ سبد</button>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+
+
+ <!-- ABOUT -->
+<section id="about" class="mt-12 grid lg:grid-cols-3 gap-6 items-center">
+      <div class="lg:col-span-2 bg-white rounded-3xl p-6 shadow glass">
+        <h3 class="text-2xl font-bold">چرا آجیل دانیال؟</h3>
+        <p class="mt-3 text-gray-600">ما کیفیت را از مزرعه تا بسته‌بندی پیگیری می‌کنیم. انتخاب‌های سالم، تست شده و بسته‌بندی‌هایی با ماندگاری بالا تا شما همیشه طعمی تازه دریافت کنید.</p>
+
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-lg bg-brand-100 text-brand-700">✔</div>
+            <div>
+              <h4 class="font-semibold">تازگی تضمینی</h4>
+              <p class="text-xs text-gray-500">هر سفارش با بسته‌بندی مخصوص ارسال می‌شود.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <div class="p-3 rounded-lg bg-brand-100 text-brand-700">🚚</div>
+            <div>
+              <h4 class="font-semibold">ارسال سریع</h4>
+              <p class="text-xs text-gray-500">ارسال مخصوص تهران و شهرستان‌ها در کمتر از ۷۲ ساعت.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="bg-white rounded-3xl p-6 shadow glass">
+        <h4 class="font-bold">بسته‌های محبوب</h4>
+        <ul class="mt-3 text-sm text-gray-600 space-y-2">
+          <li>بستهٔ تولد — مخصوص مراسم</li>
+          <li>بستهٔ رز — بسته‌بندی لوکس</li>
+          <li>بستهٔ روزمره — اقتصادی و سالم</li>
+        </ul>
+        <a href="#order" class="mt-4 inline-block bg-brand-500 text-white px-4 py-2 rounded-lg">سفارش سریع</a>
+      </aside>
+ </section>
+
+
+
+<!-- Deals -->
+<section class="my-12 bg-green-100 p-5 rounded-2xl">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl sm:text-2xl font-extrabold text-gray-800">پسته ها</h2>
+    <a href="#" class="text-green-600 hover:underline">مشاهده همه</a>
+  </div>
+  <div class="swiper dealsSwiper p-3">
+    <div class="swiper-wrapper">
+      {% for product in products|slice:":4" %}
+      <div class="swiper-slide">
+        <a href="{% url 'product_detail' product.slug %}" class="block">
+          <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition group relative">
+            <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">10% تخفیف</span>
+            {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition duration-300">
+            {% else %}
+              <img src="https://picsum.photos/400/300?random={{ forloop.counter }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition duration-300">
+            {% endif %}
+            <div class="p-4">
+              <h3 class="font-bold">{{ product.title }}</h3>
+              <p class="text-green-600 font-extrabold mt-2">
+                {% if product.price_per_kg %}{{ product.price_per_kg }} تومان{% elif product.package_price %}{{ product.package_price }} تومان{% endif %}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination mt-4"></div>
+  </div>
+</section>
+
+
+<!-- Deals -->
+<section class="my-12 bg-green-50 p-5 rounded-2xl">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl sm:text-2xl font-extrabold text-gray-800">خشکبار</h2>
+    <a href="#" class="text-green-600 hover:underline">مشاهده همه</a>
+  </div>
+  <div class="swiper dealsSwiper p-3">
+    <div class="swiper-wrapper">
+      {% for product in products|slice:":4" %}
+      <div class="swiper-slide">
+        <a href="{% url 'product_detail' product.slug %}" class="block">
+          <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition group relative">
+            <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">10% تخفیف</span>
+            {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition duration-300">
+            {% else %}
+              <img src="https://picsum.photos/400/300?random={{ forloop.counter }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110 transition duration-300">
+            {% endif %}
+            <div class="p-4">
+              <h3 class="font-bold">{{ product.title }}</h3>
+              <p class="text-green-600 font-extrabold mt-2">
+                {% if product.price_per_kg %}{{ product.price_per_kg }} تومان{% elif product.package_price %}{{ product.package_price }} تومان{% endif %}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination mt-4"></div>
+  </div>
+</section>
+
+
+<!-- Deals -->
+<section class="my-12 bg-green-50 p-5 rounded-2xl">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl sm:text-2xl font-extrabold text-gray-800">بادام ها</h2>
+    <a href="#" class="text-green-600 hover:underline">مشاهده همه</a>
+  </div>
+  <div class="swiper dealsSwiper p-3">
+    <div class="swiper-wrapper">
+      {% for product in products|slice:":4" %}
+      <div class="swiper-slide">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition group relative">
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">10% تخفیف</span>
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110">
+          {% else %}
+            <img src="https://picsum.photos/400/300?random={{ forloop.counter }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110">
+          {% endif %}
+          <div class="p-4">
+            <h3 class="font-bold">{{ product.title }}</h3>
+            <p class="text-green-600 font-extrabold mt-2">
+              {% if product.price_per_kg %}{{ product.price_per_kg }} تومان{% elif product.package_price %}{{ product.package_price }} تومان{% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination mt-4"></div>
+  </div>
+</section>
+
+
+<!-- Deals -->
+<section class="my-12 bg-green-50 p-5 rounded-2xl">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl sm:text-2xl font-extrabold text-gray-800">تخمه ها</h2>
+    <a href="#" class="text-green-600 hover:underline">مشاهده همه</a>
+  </div>
+  <div class="swiper dealsSwiper p-3">
+    <div class="swiper-wrapper">
+      {% for product in products|slice:":4" %}
+      <div class="swiper-slide">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition group relative">
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">10% تخفیف</span>
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110">
+          {% else %}
+            <img src="https://picsum.photos/400/300?random={{ forloop.counter }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110">
+          {% endif %}
+          <div class="p-4">
+            <h3 class="font-bold">{{ product.title }}</h3>
+            <p class="text-green-600 font-extrabold mt-2">
+              {% if product.price_per_kg %}{{ product.price_per_kg }} تومان{% elif product.package_price %}{{ product.package_price }} تومان{% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination mt-4"></div>
+  </div>
+</section>
+
+
+
+<!-- Deals -->
+<section class="my-12 bg-green-50 p-5 rounded-2xl">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl sm:text-2xl font-extrabold text-gray-800">تخفیف‌های ویژه</h2>
+    <a href="#" class="text-green-600 hover:underline">مشاهده همه</a>
+  </div>
+  <div class="swiper dealsSwiper p-3">
+    <div class="swiper-wrapper">
+      {% for product in products|slice:":4" %}
+      <div class="swiper-slide">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition group relative">
+          <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">10% تخفیف</span>
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110">
+          {% else %}
+            <img src="https://picsum.photos/400/300?random={{ forloop.counter }}" alt="{{ product.title }}" class="w-full h-48 object-cover group-hover:scale-110">
+          {% endif %}
+          <div class="p-4">
+            <h3 class="font-bold">{{ product.title }}</h3>
+            <p class="text-green-600 font-extrabold mt-2">
+              {% if product.price_per_kg %}{{ product.price_per_kg }} تومان{% elif product.package_price %}{{ product.package_price }} تومان{% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination mt-4"></div>
+  </div>
+</section>
+
+
+ 
+<!-- Build Your Box -->
+<section class="my-16 bg-green-50 rounded-3xl shadow-md p-8 text-center">
+  <h2 class="text-2xl sm:text-3xl font-extrabold mb-4">پک سفارشی خودت رو بساز!</h2>
+  <p class="mb-6 text-gray-600">هر ترکیبی از آجیل و خشکبار که دوست داری، مخصوص خودت بسته‌بندی کن.</p>
+  <a href="#" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-lg rounded-full font-bold shadow-lg transition">شروع کن</a>
+</section>
+
 {% endblock %}
